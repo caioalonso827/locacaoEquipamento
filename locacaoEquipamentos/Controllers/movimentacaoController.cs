@@ -1,9 +1,12 @@
 ﻿using locacaoEquipamentos.models;
 using locacaoEquipamentos.Services.Service;
+using Microsoft.AspNetCore.Mvc;
 
 namespace locacaoEquipamentos.Controllers
 {
-    public class movimentacaoController
+    [ApiController]
+    [Route("Equipamento")]
+    public class movimentacaoController : ControllerBase
     {
         private readonly movimentacaoService _movimentacaoService;
 
@@ -12,11 +15,14 @@ namespace locacaoEquipamentos.Controllers
             _movimentacaoService = movimentacaoService;
         }
 
+        [HttpPost("cadastrarMovimentacao")]
         public String cadastrarMovimentacao(Movimentacao movimentacao)
         {
             return _movimentacaoService.cadastrarMovimentacao(movimentacao);
         }
 
+
+        [HttpGet("listarMovimentacoes")]
         public List<Movimentacao> listarMovimentacoes()
         {
             return _movimentacaoService.listarMovimentacoes();

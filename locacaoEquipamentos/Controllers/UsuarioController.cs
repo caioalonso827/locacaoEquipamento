@@ -10,7 +10,7 @@ namespace locacaoEquipamentos.Controllers
     {
         private readonly UsuarioService _usuarioService;
 
-        [HttpPost]
+        [HttpPost("login")]
         public Usuario login(string email, string senha)
         {
             var usuario = _usuarioService.login(email, senha);

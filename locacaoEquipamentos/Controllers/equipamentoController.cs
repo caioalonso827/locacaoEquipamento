@@ -16,13 +16,13 @@ namespace locacaoEquipamentos.Controllers
             _equipamentoService = equipamentoService;
         }
 
-        [HttpGet]
+        [HttpGet("listarEquipamentos")]
         public List<Equipamento> listarEquipamentos()
         {
             return _equipamentoService.listarEquipamentos();
         }
 
-        [HttpPut]
+        [HttpPut("AtualizarEquipamentos")]
         public Equipamento atualizarEquipamento(Equipamento equipamento)
         {
             return _equipamentoService.atualizarEquipamento(equipamento);
