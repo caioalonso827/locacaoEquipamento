@@ -6,7 +6,7 @@ namespace locacaoEquipamentos.Controllers
 {
     [ApiController]
     [Route("Usuario")]
-    public class UsuarioController
+    public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _usuarioService;
 

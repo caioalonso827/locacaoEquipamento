@@ -12,7 +12,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Configuração do Swagger (.NET 8)
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Resolve conflitos caso existam rotas com assinaturas parecidas
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
 
 // Configuração de CORS (libera chamadas externas/front-end)
 builder.Services.AddCors(options =>

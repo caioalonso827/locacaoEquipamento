@@ -6,7 +6,7 @@ namespace locacaoEquipamentos.Controllers
 {
     [ApiController]
     [Route("Equipamento")]
-    public class equipamentoController
+    public class equipamentoController :ControllerBase
     {
         private readonly equipamentoService _equipamentoService;
 
