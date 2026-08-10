@@ -1,10 +1,15 @@
 using locacaoEquipamentos;
-using locacaoEquipamentos.Services.Service; // Importante para achar as suas classes de Service
+using locacaoEquipamentos.Services.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Prevenção do erro de inotify no Linux (Render)
+// --- FORÇAR ESCUTA EM 0.0.0.0 E NA PORTA DO RENDER ---
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+// ----------------------------------------------------
+
+// Evita o erro de inotify/watch no Linux do Render
 builder.Configuration.Sources.Clear();
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
@@ -18,11 +23,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 3. INJEÇÃO DE DEPENDÊNCIA DOS SEUS SERVIÇOS (Faltava registrar aqui!)
+// 3. Injeção de Dependência dos Serviços
 builder.Services.AddScoped<movimentacaoService>();
 builder.Services.AddScoped<UsuarioService>();
-// Se você tiver outros serviços (ex: EquipamentoService), adicione a linha deles aqui também:
-// builder.Services.AddScoped<EquipamentoService>();
 
 // 4. Configuração do Swagger
 builder.Services.AddEndpointsApiExplorer();
