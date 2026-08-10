@@ -3,14 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// 1. Configuração dos Serviços (Dependências)
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
+// Configuração do Banco de Dados PostgreSQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configuração do Swagger (.NET 8)
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configuração de CORS (libera chamadas externas/front-end)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("LiberarTudo", policy =>
@@ -21,32 +25,20 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
-// ... (outros serviços do seu projeto)
-
+// 2. Construção da aplicação (apenas UMA vez)
 var app = builder.Build();
 
-// 2. ATIVE O CORS (IMPORTANTE: colocar ANTES de UseAuthorization e MapControllers)
-app.UseCors("LiberarTudo");
+// 3. Pipeline da Aplicação (Middleware)
 
-app.UseAuthorization();
-app.MapControllers();
-
-app.Run();
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Ativa a documentação visual do Swagger em qualquer ambiente
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.MapOpenApi();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Locacao Equipamentos v1");
+    c.RoutePrefix = string.Empty; // Abre o Swagger na raiz do site (/)
+});
 
-app.UseHttpsRedirection();
+app.UseCors("LiberarTudo");
 
 app.UseAuthorization();
 
