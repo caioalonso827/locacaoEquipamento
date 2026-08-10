@@ -1,24 +1,37 @@
 using locacaoEquipamentos;
+using locacaoEquipamentos.Services.Service; // Importante para achar as suas classes de Service
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configuração dos Serviços (Dependências)
+// Prevenção do erro de inotify no Linux (Render)
+builder.Configuration.Sources.Clear();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables();
+
+// 1. Configuração dos Controllers
 builder.Services.AddControllers();
 
-// Configuração do Banco de Dados PostgreSQL
+// 2. Configuração do Banco de Dados PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configuração do Swagger (.NET 8)
+// 3. INJEÇÃO DE DEPENDÊNCIA DOS SEUS SERVIÇOS (Faltava registrar aqui!)
+builder.Services.AddScoped<movimentacaoService>();
+builder.Services.AddScoped<UsuarioService>();
+// Se você tiver outros serviços (ex: EquipamentoService), adicione a linha deles aqui também:
+// builder.Services.AddScoped<EquipamentoService>();
+
+// 4. Configuração do Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // Resolve conflitos caso existam rotas com assinaturas parecidas
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 
-// Configuração de CORS (libera chamadas externas/front-end)
+// 5. Configuração de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("LiberarTudo", policy =>
@@ -29,23 +42,18 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 2. Construção da aplicação (apenas UMA vez)
 var app = builder.Build();
 
-// 3. Pipeline da Aplicação (Middleware)
-
-// Ativa a documentação visual do Swagger em qualquer ambiente
+// Pipeline da Aplicação
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Locacao Equipamentos v1");
-    c.RoutePrefix = string.Empty; // Abre o Swagger na raiz do site (/)
+    c.RoutePrefix = string.Empty;
 });
 
 app.UseCors("LiberarTudo");
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
