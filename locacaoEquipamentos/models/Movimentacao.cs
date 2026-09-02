@@ -1,23 +1,29 @@
 ﻿using locacaoEquipamentos.models.Enum;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace locacaoEquipamentos.models
 {
-    public class Movimentacao
+
+    [Table("movimentacao")]
+    public class movimentacao
     {
-        public int Id { get; set; }
+
+        [Key]
+        public int id { get; set; }
         public int usuario_id { get; set; }
         public int equipamento_id { get; set; }
 
-        public Tipo Tipo { get; set; }
+        public Tipo tipo { get; set; }
 
-        public int Quantidades { get; set; }
-
-        [JsonIgnore]
-        public Usuario usuario { get; set; }
+        public int quantidade { get; set; }
 
         [JsonIgnore]
-        public Equipamento equipamento { get; set; }
+        public usuario usuario { get; set; }
+
+        [JsonIgnore]
+        public equipamentos equipamento { get; set; }
 
 
     }
