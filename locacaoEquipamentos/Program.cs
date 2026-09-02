@@ -4,35 +4,34 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// Configuração de escuta no IP 0.0.0.0 na porta dinâmica do Render
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http/*:{port}");
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-
+// Configuração de arquivos sem reload automático para otimizar uso de memória
 builder.Configuration.Sources.Clear();
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
     .AddEnvironmentVariables();
 
-
+// Controllers e Banco de Dados
 builder.Services.AddControllers();
-
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Injeção de Dependências
 builder.Services.AddScoped<movimentacaoService>();
 builder.Services.AddScoped<UsuarioService>();
 
-
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 
-
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("LiberarTudo", policy =>
@@ -45,11 +44,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Middlewares
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Locacao Equipamentos v1");
-    c.RoutePrefix = string.Empty;
+    c.RoutePrefix = string.Empty; // Swagger como página inicial
 });
 
 app.UseCors("LiberarTudo");
