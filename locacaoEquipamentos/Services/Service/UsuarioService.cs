@@ -1,4 +1,5 @@
 ﻿using locacaoEquipamentos.models;
+using locacaoEquipamentos.models.Dto;
 
 namespace locacaoEquipamentos.Services.Service
 {
@@ -12,9 +13,9 @@ namespace locacaoEquipamentos.Services.Service
             _appDbContext = appDbContext;
         }
 
-        public Usuario login (string email, string senha)
+        public Usuario login (Login login)
         {
-            var usuario = _appDbContext.Usuarios.FirstOrDefault(u => u.email == email && u.senha == senha);
+            var usuario = _appDbContext.Usuarios.FirstOrDefault(u => u.email == login.email && u.senha == login.senha);
             return usuario;
         }
     }
