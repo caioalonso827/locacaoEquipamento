@@ -18,7 +18,7 @@ namespace locacaoEquipamentos.Controllers
         }
 
         [HttpPost("login")]
-        public Usuario login([FromBody] Login login)
+        public usuario login([FromBody] Login login)
         {
             var usuario = _usuarioService.login(login);
             if (usuario == null)

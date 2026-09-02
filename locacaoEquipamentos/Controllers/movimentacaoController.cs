@@ -16,14 +16,14 @@ namespace locacaoEquipamentos.Controllers
         }
 
         [HttpPost("cadastrarMovimentacao")]
-        public String cadastrarMovimentacao(Movimentacao movimentacao)
+        public String cadastrarMovimentacao(movimentacao movimentacao)
         {
             return _movimentacaoService.cadastrarMovimentacao(movimentacao);
         }
 
 
         [HttpGet("listarMovimentacoes")]
-        public List<Movimentacao> listarMovimentacoes()
+        public List<movimentacao> listarMovimentacoes()
         {
             return _movimentacaoService.listarMovimentacoes();
         }

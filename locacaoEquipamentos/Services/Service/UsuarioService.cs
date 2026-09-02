@@ -13,9 +13,9 @@ namespace locacaoEquipamentos.Services.Service
             _appDbContext = appDbContext;
         }
 
-        public Usuario login (Login login)
+        public usuario login (Login login)
         {
-            var usuario = _appDbContext.Usuarios.FirstOrDefault(u => u.email == login.email && u.senha == login.senha);
+            var usuario = _appDbContext.usuario.FirstOrDefault(u => u.email == login.email && u.senha == login.senha);
             return usuario;
         }
     }

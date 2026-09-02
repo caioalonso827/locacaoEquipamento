@@ -10,9 +10,9 @@ namespace locacaoEquipamentos
         }
 
 
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Equipamento> Equipamentos { get; set; }
-        public DbSet<Movimentacao> Movimentacaos { get; set; }
+        public DbSet<usuario> usuario { get; set; }
+        public DbSet<equipamentos> equipamentos { get; set; }
+        public DbSet<movimentacao> movimentacao { get; set; }
 
     }
 }

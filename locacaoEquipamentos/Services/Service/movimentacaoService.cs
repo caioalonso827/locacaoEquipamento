@@ -14,43 +14,43 @@ namespace locacaoEquipamentos.Services.Service
             _appDbContext = appDbContext;
         }
 
-        public String cadastrarMovimentacao(Movimentacao movimentacao)
+        public String cadastrarMovimentacao(movimentacao movimentacao)
         {
-            if (movimentacao.Tipo == Tipo.ENTRADA)
+            if (movimentacao.tipo == Tipo.ENTRADA)
             {
-                var equipamentoExistente = _appDbContext.Equipamentos.Find(movimentacao.equipamento_id);
+                var equipamentoExistente = _appDbContext.equipamentos.Find(movimentacao.equipamento_id);
                 if (equipamentoExistente == null)
                 {
                     throw new Exception("Equipamento não encontrado.");
                 }
-                equipamentoExistente.Quantidade += movimentacao.Quantidades;
+                equipamentoExistente.quantidade += movimentacao.quantidade;
 
             }
-            else if (movimentacao.Tipo == Tipo.SAIDA)
+            else if (movimentacao.tipo == Tipo.SAIDA)
             {
-                var equipamentoExistente = _appDbContext.Equipamentos.Find(movimentacao.equipamento_id);
+                var equipamentoExistente = _appDbContext.equipamentos.Find(movimentacao.equipamento_id);
                 if (equipamentoExistente == null)
                 {
                     throw new Exception("Equipamento não encontrado.");
                 }
-                if (equipamentoExistente.Quantidade < movimentacao.Quantidades)
+                if (equipamentoExistente.quantidade < movimentacao.quantidade)
                 {
                     throw new Exception("Quantidade insuficiente em estoque.");
                 }
-                equipamentoExistente.Quantidade -= movimentacao.Quantidades;
+                equipamentoExistente.quantidade -= movimentacao.quantidade;
             }
             else
             {
                 throw new Exception("Tipo de movimentação inválido.");
             }
-            _appDbContext.Movimentacaos.Add(movimentacao);
+            _appDbContext.movimentacao.Add(movimentacao);
             _appDbContext.SaveChanges();
             return "Movimentação cadastrada com sucesso!";
         }
 
-        public List<Movimentacao> listarMovimentacoes()
+        public List<movimentacao> listarMovimentacoes()
         {
-            var lista = _appDbContext.Movimentacaos.ToList();
+            var lista = _appDbContext.movimentacao.ToList();
             return lista;
         }
     }

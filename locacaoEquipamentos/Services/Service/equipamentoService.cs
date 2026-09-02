@@ -16,23 +16,23 @@ namespace locacaoEquipamentos.Services.Service
 
 
         [HttpGet]
-        public List<Equipamento> listarEquipamentos()
+        public List<equipamentos> listarEquipamentos()
         {
-            var lista = _appDbContext.Equipamentos.ToList();
+            var lista = _appDbContext.equipamentos.ToList();
             return lista;
 
         }
 
         [HttpPut]
-        public Equipamento atualizarEquipamento(Equipamento equipamento)
+        public equipamentos atualizarEquipamento(equipamentos equipamento)
         {
-            var equipamentoExistente = _appDbContext.Equipamentos.Find(equipamento.Id);
+            var equipamentoExistente = _appDbContext.equipamentos.Find(equipamento.id);
             if (equipamentoExistente == null)
             {
                 throw new Exception("Equipamento não encontrado.");
             }
-            equipamentoExistente.Nome = equipamento.Nome;
-            equipamentoExistente.Quantidade = equipamento.Quantidade;
+            equipamentoExistente.nome = equipamento.nome;
+            equipamentoExistente.quantidade = equipamento.quantidade;
             _appDbContext.SaveChanges();
             return equipamentoExistente;
         }
@@ -40,12 +40,12 @@ namespace locacaoEquipamentos.Services.Service
         [HttpDelete("{id}")]
         public void deletarEquipamento(int id)
         {
-            var equipamentoExistente = _appDbContext.Equipamentos.Find(id);
+            var equipamentoExistente = _appDbContext.equipamentos.Find(id);
             if (equipamentoExistente == null)
             {
                 throw new Exception("Equipamento não encontrado.");
             }
-            _appDbContext.Equipamentos.Remove(equipamentoExistente);
+            _appDbContext.equipamentos.Remove(equipamentoExistente);
             _appDbContext.SaveChanges();
         }
     }
