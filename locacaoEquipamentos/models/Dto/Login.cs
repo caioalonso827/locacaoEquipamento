@@ -2,8 +2,8 @@
 {
     public class Login
     {
-        public string email;
-        public string senha;
+        public string email {  get; set; }
+        public string senha { get; set; }
         
 
     }
