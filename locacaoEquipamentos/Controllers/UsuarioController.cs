@@ -14,7 +14,7 @@ namespace locacaoEquipamentos.Controllers
         [HttpPost("login")]
         public Usuario login([FromBody] Login login)
         {
-            var usuario = _usuarioService.login(login.email, login.senha);
+            var usuario = _usuarioService.login(login);
             if (usuario == null)
             {
                 throw new Exception("Credenciais inválidas");
