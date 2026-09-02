@@ -23,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Injeção de Dependências
 builder.Services.AddScoped<movimentacaoService>();
 builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<equipamentoService>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

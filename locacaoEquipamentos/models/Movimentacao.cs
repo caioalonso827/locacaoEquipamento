@@ -21,7 +21,7 @@ namespace locacaoEquipamentos.models
 
 
         [Column("tipo")]
-        public Tipo tipo { get; set; }
+        public string tipo { get; set; }
 
         [Column("quantidade")]
         public int quantidade { get; set; }
