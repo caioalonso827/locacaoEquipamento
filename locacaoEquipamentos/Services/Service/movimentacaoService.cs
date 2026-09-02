@@ -16,7 +16,7 @@ namespace locacaoEquipamentos.Services.Service
 
         public String cadastrarMovimentacao(movimentacao movimentacao)
         {
-            if (movimentacao.tipo == Tipo.ENTRADA)
+            if (movimentacao.tipo == "ENTRADA")
             {
                 var equipamentoExistente = _appDbContext.equipamentos.Find(movimentacao.equipamento_id);
                 if (equipamentoExistente == null)
@@ -26,7 +26,7 @@ namespace locacaoEquipamentos.Services.Service
                 equipamentoExistente.quantidade += movimentacao.quantidade;
 
             }
-            else if (movimentacao.tipo == Tipo.SAIDA)
+            else if (movimentacao.tipo == "SAIDA")
             {
                 var equipamentoExistente = _appDbContext.equipamentos.Find(movimentacao.equipamento_id);
                 if (equipamentoExistente == null)
