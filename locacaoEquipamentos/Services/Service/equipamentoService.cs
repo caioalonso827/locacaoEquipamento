@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace locacaoEquipamentos.Services.Service
 {
-    [ApiController]
-    [Route("Equipamento")]
+
     public class equipamentoService
     {
         private readonly AppDbContext _appDbContext;
@@ -15,7 +14,6 @@ namespace locacaoEquipamentos.Services.Service
         }
 
 
-        [HttpGet]
         public List<equipamentos> listarEquipamentos()
         {
             var lista = _appDbContext.equipamentos.ToList();
@@ -23,7 +21,6 @@ namespace locacaoEquipamentos.Services.Service
 
         }
 
-        [HttpPut]
         public equipamentos atualizarEquipamento(equipamentos equipamento)
         {
             var equipamentoExistente = _appDbContext.equipamentos.Find(equipamento.id);
@@ -37,7 +34,6 @@ namespace locacaoEquipamentos.Services.Service
             return equipamentoExistente;
         }
 
-        [HttpDelete("{id}")]
         public void deletarEquipamento(int id)
         {
             var equipamentoExistente = _appDbContext.equipamentos.Find(id);

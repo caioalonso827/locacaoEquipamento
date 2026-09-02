@@ -27,14 +27,13 @@ namespace locacaoEquipamentos.models
         public int quantidade { get; set; }
 
 
-        [Column("usuario")]
+        [ForeignKey(nameof(usuario_id))]
         [JsonIgnore]
-        public usuario usuario { get; set; }
+        public usuario usuario { get; set; } = null!;
 
-
-        [Column("equipamento")]
+        [ForeignKey(nameof(equipamento_id))]
         [JsonIgnore]
-        public equipamentos equipamento { get; set; }
+        public equipamentos equipamento { get; set; } = null!;
 
 
     }
