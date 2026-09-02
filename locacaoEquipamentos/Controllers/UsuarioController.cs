@@ -11,7 +11,7 @@ namespace locacaoEquipamentos.Controllers
         private readonly UsuarioService _usuarioService;
 
         [HttpPost("login")]
-        public Usuario login(string email, string senha)
+        public Usuario login([FromBody] string email, string senha)
         {
             var usuario = _usuarioService.login(email, senha);
             if (usuario == null)
