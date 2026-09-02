@@ -2,6 +2,7 @@
 using locacaoEquipamentos.models.Dto;
 using locacaoEquipamentos.Services.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.Intrinsics;
 
 namespace locacaoEquipamentos.Controllers
 {
@@ -10,6 +11,11 @@ namespace locacaoEquipamentos.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _usuarioService;
+
+        public UsuarioController(UsuarioService usuarioService)
+        {
+            _usuarioService = usuarioService;
+        }
 
         [HttpPost("login")]
         public Usuario login([FromBody] Login login)
