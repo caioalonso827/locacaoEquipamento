@@ -1,6 +1,9 @@
 using locacaoEquipamentos;
 using locacaoEquipamentos.Services.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,8 +56,29 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty; // Swagger como página inicial
 });
 
+
+var secretKey = Encoding.ASCII.GetBytes("5e61d90f9fec0b9616506f863be40a770c540fcace655f6e3330e897487f632b");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
 app.UseCors("LiberarTudo");
 app.UseAuthorization();
+app.UseAuthentication();
 app.MapControllers();
 
 app.Run();

@@ -1,5 +1,6 @@
 ﻿using locacaoEquipamentos.models;
 using locacaoEquipamentos.Services.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace locacaoEquipamentos.Controllers
@@ -15,13 +16,15 @@ namespace locacaoEquipamentos.Controllers
             _movimentacaoService = movimentacaoService;
         }
 
+
+        [Authorize]
         [HttpPost("cadastrarMovimentacao")]
         public String cadastrarMovimentacao(movimentacao movimentacao)
         {
             return _movimentacaoService.cadastrarMovimentacao(movimentacao);
         }
 
-
+        [Authorize]
         [HttpGet("listarMovimentacoes")]
         public List<movimentacao> listarMovimentacoes()
         {
