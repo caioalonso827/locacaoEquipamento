@@ -46,17 +46,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-var app = builder.Build();
-
-// Middlewares
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Locacao Equipamentos v1");
-    c.RoutePrefix = string.Empty; // Swagger como página inicial
-});
-
-
 var secretKey = Encoding.ASCII.GetBytes("5e61d90f9fec0b9616506f863be40a770c540fcace655f6e3330e897487f632b");
 
 builder.Services.AddAuthentication(options =>
@@ -76,9 +65,24 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
+var app = builder.Build();
+
+// Middlewares
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Locacao Equipamentos v1");
+    c.RoutePrefix = string.Empty; // Swagger como página inicial
+});
+
+
+
 app.UseCors("LiberarTudo");
-app.UseAuthorization();
+
 app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
