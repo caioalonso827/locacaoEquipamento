@@ -16,7 +16,7 @@ namespace locacaoEquipamentos.Controllers
 
         public AuthController(AppDbContext appDbContext)
         {
-            appDbContext = _context;
+            _context = appDbContext;
         }
 
 
